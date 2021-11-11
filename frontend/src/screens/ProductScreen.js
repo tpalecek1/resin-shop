@@ -87,17 +87,15 @@ function ProductScreen({history, match}) {
                             )}
 
                             <ListGroup.Item>
-                                <div className='d-grid gap-2'>
                                     <Button 
                                     onClick={
                                         addToCartHandler
                                     }
-                                    variant='primary' 
-                                    size='lg' 
+                                    className='btn-block'
+                                    type='button'
                                     disabled={product.countInStock === 0}>
                                         Add To Cart
                                     </Button>
-                                </div>
                             </ListGroup.Item>
                         </ListGroup>
                     </Card>
