@@ -1,13 +1,13 @@
 import axios from 'axios'
 import React, {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
-import {Form, Button} from 'react-bootstrap'
+import {Form, Button, Col} from 'react-bootstrap'
 import {useDispatch, useSelector} from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
 import {listProductDetails, updateProduct} from '../actions/productActions'
-import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
+import { PRODUCT_UPDATE_RESET, PRODUCT_DETAILS_RESET } from '../constants/productConstants'
 
 const ProductEditScreen = ({match, history}) => {
     const productId = match.params.id
@@ -18,6 +18,7 @@ const ProductEditScreen = ({match, history}) => {
     const [category, setCategory] = useState('')
     const [countInStock, setCountInStock] = useState(0)
     const [description, setDescription] = useState('')
+    const [custom, setCustom] = useState(false)
     const [uploading, setUploading] = useState(false)
 
     const dispatch = useDispatch()
@@ -31,6 +32,7 @@ const ProductEditScreen = ({match, history}) => {
     useEffect(() => {
         if(successUpdate){
             dispatch({type: PRODUCT_UPDATE_RESET})
+            dispatch({type: PRODUCT_DETAILS_RESET})
             history.push('/admin/productlist')
         } else{
             if(!product || !product.name || product._id !== productId) {
@@ -43,6 +45,7 @@ const ProductEditScreen = ({match, history}) => {
                 setCategory(product.category)
                 setCountInStock(product.countInStock)
                 setDescription(product.description)
+                setCustom(product.custom)
             }
         }
     }, [dispatch, productId, product, history, successUpdate])
@@ -69,9 +72,10 @@ const ProductEditScreen = ({match, history}) => {
 
     const submitHandler = (e) => {
         e.preventDefault()
+        console.log(custom)
         dispatch(updateProduct({
             _id: product._id,
-            name, price, image, brand, category, description, countInStock
+            name, price, image, brand, category, description, countInStock, custom
         }))
     }
 
@@ -120,6 +124,12 @@ const ProductEditScreen = ({match, history}) => {
                         <Form.Label>Description</Form.Label>
                             <Form.Control type='text' placeholder='Enter description' value={description}
                             onChange={(e) => setDescription(e.target.value)}></Form.Control>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label as='legend'>Select Method</Form.Label>
+                            <Col>
+                                <Form.Check type='checkbox' label='Custom?' id='custom' name='custom' checked={custom} onChange={(e) => {setCustom(e.target.checked)}}></Form.Check>
+                            </Col>
                         </Form.Group>
                         <div className='d-grid gap-2 py-2'>
                         <Button type='submit' variant='primary'>Update</Button>

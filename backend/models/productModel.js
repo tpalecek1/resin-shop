@@ -67,6 +67,11 @@ const productSchema = mongoose.Schema({
         type: Number, 
         required: true,
         default: 0,
+    },
+    custom:{
+        type: Boolean, 
+        required: false,
+        default: false,
     }
 }, {timestamps: true
 })

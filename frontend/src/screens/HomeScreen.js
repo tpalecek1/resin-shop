@@ -21,11 +21,11 @@ const HomeScreen = ({match}) => {
     useEffect(() => {
         dispatch(listProducts(keyword, pageNumber))
     }, [dispatch, keyword, pageNumber])
-
+    //{!keyword ? <ProductCarousel/> : <Link to='/' className='btn btn-light'>Go Back</Link>}
     return (
         <>
             <Meta/>
-            {!keyword ? <ProductCarousel/> : <Link to='/' className='btn btn-light'>Go Back</Link>}
+            
             <h1>Latest Products</h1>
             {loading ? (
                 <Loader/>

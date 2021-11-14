@@ -112,6 +112,11 @@ const OrderScreen = ({match, history}) => {
                                                 <Col>
                                                     <Link to={`/product/${item.product}`}>{item.name}</Link>
                                                 </Col>
+                                                {item.custom && 
+                                                <Col md={4}>
+                                                    <p>Custom details:</p> 
+                                                    <p style={{overflow: 'hidden'}}>{item.customDescription}</p>
+                                                </Col>}
                                                 <Col md={4}>
                                                     {item.qty} x ${item.price} = ${item.qty * item.price}
                                                 </Col>

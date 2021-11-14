@@ -11,6 +11,7 @@ import {listProductDetails} from '../actions/productActions'
 
 function ProductScreen({history, match}) {
     const [qty, setQty] = useState(1)
+    const [customDetails, setCustomDetails] = useState('')
 
 
     const dispatch = useDispatch()
@@ -21,7 +22,7 @@ function ProductScreen({history, match}) {
     }, [dispatch, match])
 
     const addToCartHandler = () => {
-        history.push(`/cart/${match.params.id}?qty=${qty}`)
+        history.push(`/cart/${match.params.id}?qty=${qty}&details=${customDetails}`)
     }
 
     return (
@@ -79,7 +80,7 @@ function ProductScreen({history, match}) {
                                     <Row>
                                         <Col>Qty</Col>
                                         <Col>
-                                            <Form.Control as='select' vaule={qty} onChange={(e) => setQty(e.target.value)}>
+                                            <Form.Control as='select' value={qty} onChange={(e) => setQty(e.target.value)}>
                                                 {[...Array(product.countInStock).keys()].map(x => (
                                                     <option key={x + 1} value={x + 1}>{x + 1}</option>
                                                 ))}
@@ -88,6 +89,18 @@ function ProductScreen({history, match}) {
                                     </Row>
                                 </ListGroup.Item>
                             )}
+                            {product.custom && 
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col>Custom item: Please enter details</Col>
+                                    </Row>
+                                    <Row>
+                                        <Form.Group controlId='customDetails'>
+                                        <Form.Control as='textarea' rows={4} placeholder='Enter details' value={customDetails}
+                                        onChange={(e) => setCustomDetails(e.target.value)}></Form.Control>
+                                        </Form.Group>
+                                    </Row>
+                                </ListGroup.Item>}
 
                             <ListGroup.Item>
                                     <Button 

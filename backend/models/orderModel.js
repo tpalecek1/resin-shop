@@ -24,6 +24,14 @@ const orderSchema = mongoose.Schema({
                 type: Number,
                 required: true,
             },
+            custom: {
+                type: Boolean,
+                required: false,
+            },
+            customDescription: {
+                type: String,
+                required: false,
+            },
             product: {
                 type: mongoose.Schema.Types.ObjectId,
                 required: true,

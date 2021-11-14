@@ -6,7 +6,7 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import Paginate from '../components/Paginate'
 import {listProducts, deleteProduct, createProduct} from '../actions/productActions'
-import {PRODUCT_CREATE_RESET} from '../constants/productConstants'
+import {PRODUCT_CREATE_RESET, PRODUCT_DETAILS_RESET} from '../constants/productConstants'
 
 const ProductListScreen = ({history, match}) => {
     const pageNumber = match.params.pageNumber || 1
@@ -28,6 +28,7 @@ const ProductListScreen = ({history, match}) => {
 
     useEffect(() => {
         dispatch({type: PRODUCT_CREATE_RESET})
+        dispatch({type: PRODUCT_DETAILS_RESET})
         if(!userInfo.isAdmin) {
             history.push('/login')
         } 

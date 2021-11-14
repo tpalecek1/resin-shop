@@ -8,7 +8,8 @@ import {addToCart, removeFromCart} from '../actions/cartActions'
 const CartScreen = ({match, location, history}) => {
     const productId = match.params.id
 
-    const qty = location.search ? Number(location.search.split('=')[1]) : 1
+    const qty = location.search ? Number(location.search.split('=')[1].split('&')[0]) : 1
+    const details = location.search ? (location.search.split('&')[1]).split('=')[1] : ''
     const dispatch = useDispatch()
 
     const cart = useSelector(state => state.cart)
@@ -16,7 +17,7 @@ const CartScreen = ({match, location, history}) => {
 
     useEffect(()=>{
         if(productId){
-            dispatch(addToCart(productId, qty))
+            dispatch(addToCart(productId, qty, details))
         }
     }, [dispatch, productId, qty])
 
@@ -37,13 +38,18 @@ const CartScreen = ({match, location, history}) => {
                         {cartItems.map(item => (
                             <ListGroup.Item key={item.product}>
                                 <Row>
-                                    <Col md={2}>
+                                    <Col md={1}>
                                         <Image src={item.image} alt={item.name} fluid rounded></Image>
                                     </Col>
-                                    <Col md={3}>
+                                    <Col md={2}>
                                         <Link to={`/product/${item.product}`}>{item.name}</Link>
                                     </Col>
                                     <Col md={2}>${item.price}</Col>
+                                                <Col md={3}>
+                                                {item.custom &&
+                                                    <><p>Custom details:</p> 
+                                                    <p style={{overflow: 'hidden'}}>{item.customDescription}</p></>}
+                                                </Col>
                                     <Col md={2}>
                                         <Form.Control as='select' value={item.qty} onChange={(e) => dispatch(addToCart(item.product, Number(e.target.value)))}>
                                             {[...Array(item.countInStock).keys()].map(x => (
